@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "claim": "breaking",
+        "verdict": "Unverified",
+        "confidence": 75,
+        "message": "Analysis completed for: breaking",
+        "date": "2026-08-23 22:41:45"
+    },
+    {
+        "id": 2,
+        "claim": "breaking news",
+        "verdict": "Unverified",
+        "confidence": 75,
+        "message": "Analysis completed for: breaking news",
+        "date": "2026-08-23 22:41:54"
+    },
+    {
+        "id": 3,
+        "claim": "breaking news",
+        "verdict": "Unverified",
+        "confidence": 75,
+        "message": "Analysis completed for: breaking news",
+        "date": "2026-08-23 23:25:01"
+    },
+    {
+        "id": 4,
+        "claim": "Breaking news: A shocking secret miracle discovery has been announced today.",
+        "verdict": "Unverified",
+        "confidence": 75,
+        "message": "Analysis completed for: Breaking news: A shocking secret miracle discovery",
+        "date": "2026-08-24 18:37:05"
+    }
+]

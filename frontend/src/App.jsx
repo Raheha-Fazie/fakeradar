@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 function App() {
   const [text, setText] = useState("");
@@ -6,21 +7,17 @@ function App() {
 
   const analyzeNews = async () => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/analyze",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            text,
-          }),
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5000/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text,
+        }),
+      });
 
       const data = await response.json();
-
       setResult(data);
     } catch (error) {
       console.error(error);
@@ -29,39 +26,48 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>FakeRadar</h1>
+    <div className="container">
+      <h1>📰 FakeRadar</h1>
+      <h3>AI-Powered Fake News Detection System</h3>
 
       <textarea
-        rows="8"
-        cols="60"
-        placeholder="Paste news article here..."
+        placeholder="Paste your news article here..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
 
-      <br />
-      <br />
-
       <button onClick={analyzeNews}>
-        Analyze
+        Analyze News
       </button>
 
       {result && (
-        <div style={{ marginTop: "20px" }}>
-          <h2>Result</h2>
+        <div className="result-card">
+
+          <h2>Analysis Result</h2>
 
           <p>
-            <strong>Verdict:</strong>{" "}
-            {result.verdict}
+            <strong>Verdict:</strong> {result.verdict}
           </p>
 
           <p>
-            <strong>Confidence:</strong>{" "}
-            {result.confidence}%
+            <strong>Confidence:</strong> {result.confidence}%
           </p>
 
           <p>{result.message}</p>
+
+          <h3>Detected Keywords</h3>
+
+          {result.keywords_detected &&
+result.keywords_detected.length > 0 ? (
+  <ul>
+    {result.keywords_detected.map((word, index) => (
+      <li key={index}>{word}</li>
+    ))}
+  </ul>
+) : (
+  <p>No suspicious keywords detected.</p>
+)}
+
         </div>
       )}
     </div>
