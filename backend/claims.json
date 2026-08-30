@@ -30,5 +30,21 @@
         "confidence": 75,
         "message": "Analysis completed for: Breaking news: A shocking secret miracle discovery",
         "date": "2026-08-24 18:37:05"
+    },
+    {
+        "id": 5,
+        "text": "Danger",
+        "verdict": "Unverified",
+        "confidence": 75,
+        "message": "Analysis completed for: Danger",
+        "timestamp": "2026-08-24T20:08:19"
+    },
+    {
+        "id": 6,
+        "text": "Scientists have announced a new medicine that can cure every known disease within 24 hours. The researchers claim that the treatment has been tested successfully on all patients and will be available to everyone for free next week.",
+        "verdict": "Fake",
+        "confidence": 68.06,
+        "message": "The model classified this news article as Fake with 68.06% confidence.",
+        "timestamp": "2026-08-25T10:36:27"
     }
 ]

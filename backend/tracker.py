@@ -1,46 +1,89 @@
-import json
-import os
-from datetime import datetime
-
-CLAIMS_FILE = os.path.join(
-    os.path.dirname(__file__),
-    "claims.json"
-)
+from database import add_claim as database_add_claim
+from database import get_all_claims as database_get_all_claims
+from database import delete_claim as database_delete_claim
 
 
-def load_claims():
-    if not os.path.exists(CLAIMS_FILE):
-        return []
+# ============================================================
+# ADD CLAIM
+# ============================================================
 
-    try:
-        with open(CLAIMS_FILE, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except (json.JSONDecodeError, FileNotFoundError):
-        return []
+def add_claim(text, verdict, confidence, message):
+    """
+    Save a claim using the SQLite database.
+    """
+
+    return database_add_claim(
+        text=text,
+        verdict=verdict,
+        confidence=confidence,
+        message=message
+    )
 
 
-def save_claims(claims):
-    with open(CLAIMS_FILE, "w", encoding="utf-8") as file:
-        json.dump(claims, file, indent=4)
-
-
-def add_claim(text, verdict, confidence, message=""):
-    claims = load_claims()
-
-    claim = {
-        "id": len(claims) + 1,
-        "claim": text,
-        "verdict": verdict,
-        "confidence": confidence,
-        "message": message,
-        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
-
-    claims.append(claim)
-    save_claims(claims)
-
-    return claim
-
+# ============================================================
+# GET ALL CLAIMS
+# ============================================================
 
 def get_all_claims():
-    return load_claims()
+    """
+    Get all claims from the SQLite database.
+    """
+
+    return database_get_all_claims()
+
+
+# ============================================================
+# DELETE CLAIM
+# ============================================================
+
+def delete_claim(claim_id):
+    """
+    Delete a claim using its ID.
+    """
+
+    return database_delete_claim(claim_id)
+
+
+# ============================================================
+# GET CLAIM STATISTICS
+# ============================================================
+
+def get_claim_statistics():
+    """
+    Calculate statistics for the Admin Dashboard.
+    """
+
+    claims = database_get_all_claims()
+
+    total = len(claims)
+
+    fake = sum(
+        1
+        for claim in claims
+        if str(
+            claim.get("verdict", "")
+        ).lower() == "fake"
+    )
+
+    real = sum(
+        1
+        for claim in claims
+        if str(
+            claim.get("verdict", "")
+        ).lower() == "real"
+    )
+
+    uncertain = sum(
+        1
+        for claim in claims
+        if str(
+            claim.get("verdict", "")
+        ).lower() == "uncertain"
+    )
+
+    return {
+        "total": total,
+        "fake": fake,
+        "real": real,
+        "uncertain": uncertain
+    }
